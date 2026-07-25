@@ -39,7 +39,7 @@ export const Intro: React.FC = () => {
       <h1
         style={{
           fontFamily: "sans-serif",
-          fontSize: 80,
+          fontSize: 72,
           fontWeight: 900,
           color: "white",
           textAlign: "center",
@@ -47,21 +47,19 @@ export const Intro: React.FC = () => {
           lineHeight: 1.2,
         }}
       >
-        JJK
-        <br />
-        Power Scaling
+        JJK Power Scaling
       </h1>
       <p
         style={{
           fontFamily: "sans-serif",
-          fontSize: 32,
+          fontSize: 36,
           color: "#a78bfa",
-          marginTop: 20,
+          marginTop: 24,
           opacity: subtitleOpacity,
-          fontWeight: 600,
+          fontWeight: 700,
         }}
       >
-        Who's the strongest?
+        Before the Final Battle
       </p>
     </div>
   );
