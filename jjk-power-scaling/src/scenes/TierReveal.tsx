@@ -3,7 +3,7 @@ import { interpolate, useCurrentFrame } from "remotion";
 import { getCharactersByTier } from "../assets/characters";
 import { TierRow } from "../components/TierRow";
 
-const tiers = ["S", "A", "B", "C"];
+const tiers = ["S", "A", "B"];
 
 export const TierReveal: React.FC = () => {
   const frame = useCurrentFrame();

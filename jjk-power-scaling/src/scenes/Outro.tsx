@@ -2,7 +2,7 @@ import React from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { characters, tierColors } from "../assets/characters";
 
-const tiers = ["S", "A", "B", "C"] as const;
+const tiers = ["S", "A", "B"] as const;
 
 export const Outro: React.FC = () => {
   const frame = useCurrentFrame();

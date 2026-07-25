@@ -99,13 +99,25 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({ character }) => {
           label="Speed"
           value={character.stats.speed}
           color={character.color}
-          delay={18}
+          delay={16}
         />
         <StatBar
           label="Technique"
           value={character.stats.technique}
           color={character.color}
-          delay={26}
+          delay={22}
+        />
+        <StatBar
+          label="Cursed Energy"
+          value={character.stats.cursedEnergy}
+          color={character.color}
+          delay={28}
+        />
+        <StatBar
+          label="Battle IQ"
+          value={character.stats.battleIQ}
+          color={character.color}
+          delay={34}
         />
       </div>
     </div>

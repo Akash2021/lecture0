@@ -27,14 +27,14 @@ export const StatBar: React.FC<StatBarProps> = ({
   const displayValue = Math.round(width);
 
   return (
-    <div style={{ marginBottom: 12 }}>
+    <div style={{ marginBottom: 8 }}>
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginBottom: 4,
+          marginBottom: 3,
           fontFamily: "sans-serif",
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: 700,
           color: "white",
         }}
