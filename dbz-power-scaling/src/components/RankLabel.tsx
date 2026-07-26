@@ -42,33 +42,57 @@ export const RankLabel: React.FC<RankLabelProps> = ({
         transform: `translateY(${translateY}px)`,
       }}
     >
-      <span
+      <div
         style={{
-          fontSize: 28,
-          fontWeight: 900,
-          color,
-          fontFamily: "sans-serif",
-          fontStyle: "italic",
-          textShadow: "1px 1px 0 rgba(0,0,0,0.15)",
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "center",
         }}
       >
-        {rank}
-        <span style={{ fontSize: 18, verticalAlign: "super" }}>
+        <span
+          style={{
+            fontSize: 48,
+            fontWeight: 900,
+            color,
+            fontFamily: "sans-serif",
+            fontStyle: "italic",
+            textShadow: `2px 2px 0 rgba(0,0,0,0.15), -1px -1px 0 rgba(0,0,0,0.05)`,
+            letterSpacing: -2,
+            lineHeight: 1,
+          }}
+        >
+          {rank}
+        </span>
+        <span
+          style={{
+            fontSize: 24,
+            fontWeight: 900,
+            color,
+            fontFamily: "sans-serif",
+            fontStyle: "italic",
+            marginLeft: 2,
+            textShadow: `1px 1px 0 rgba(0,0,0,0.15)`,
+            lineHeight: 1,
+            alignSelf: "flex-start",
+            marginTop: 4,
+          }}
+        >
           {ordinalSuffix(rank)}
         </span>
-      </span>
+      </div>
       <span
         style={{
-          fontSize: 22,
+          fontSize: 26,
           fontWeight: 900,
           color,
           fontFamily: "sans-serif",
           textTransform: "uppercase",
-          letterSpacing: 1,
-          textShadow: "1px 1px 0 rgba(0,0,0,0.1)",
+          letterSpacing: 2,
+          textShadow: `1px 1px 0 rgba(0,0,0,0.1), 2px 2px 0 rgba(0,0,0,0.05)`,
           textAlign: "center",
           lineHeight: 1.1,
-          maxWidth: 140,
+          maxWidth: 160,
+          marginTop: 2,
         }}
       >
         {name}
