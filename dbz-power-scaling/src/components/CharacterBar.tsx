@@ -19,7 +19,7 @@ interface CharacterBarProps {
   animationDelay: number;
 }
 
-const AVATAR_SIZE = 80;
+const AVATAR_SIZE = 180;
 const RANK_AREA_HEIGHT = 100;
 const BAR_AREA_TOP = 100;
 const BAR_AREA_BOTTOM = 1920 - RANK_AREA_HEIGHT - 40;
