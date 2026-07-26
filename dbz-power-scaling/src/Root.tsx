@@ -4,8 +4,9 @@ import { BarReveal } from "./scenes/BarReveal";
 import { characters, FRAMES_PER_CHARACTER } from "./assets/characters";
 
 const FPS = 30;
-const TOTAL_DURATION = characters.length * FRAMES_PER_CHARACTER; // 15 * 150 = 2250 frames = 75s, plus buffer
-const FINAL_DURATION = TOTAL_DURATION + 5 * FPS; // 5s extra hold at end = 2400 frames = ~80s
+const REVEAL_DURATION = characters.length * FRAMES_PER_CHARACTER; // 15 * 105 = 1575 frames
+const END_SCREEN_DURATION = 5 * FPS; // 150 frames
+const FINAL_DURATION = REVEAL_DURATION + END_SCREEN_DURATION; // 1725 frames = ~57.5s
 
 export const RemotionRoot: React.FC = () => {
   return (

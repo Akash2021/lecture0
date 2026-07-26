@@ -12,7 +12,7 @@ export const PowerLabel: React.FC<PowerLabelProps> = ({
 }) => {
   const frame = useCurrentFrame();
 
-  const progress = interpolate(frame - animationDelay, [0, 40], [0, 1], {
+  const progress = interpolate(frame - animationDelay, [0, 20], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

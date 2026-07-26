@@ -27,4 +27,4 @@ export const characters: Character[] = [
   { rank: 1,  name: "Zeno",       powerLevel: 999999999999, color: "#FFD700", imagePath: "/characters/zeno.png" },
 ];
 
-export const FRAMES_PER_CHARACTER = 150; // 5s at 30fps
+export const FRAMES_PER_CHARACTER = 105; // 3.5s at 30fps
