@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Audio,
   Composition,
   OffthreadVideo,
   Sequence,
@@ -109,18 +108,6 @@ const TimerBar: React.FC<{
 const HxHVideo: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Background music volume with emotional swell and silence window
-  const musicVolume = (() => {
-    if (frame >= 1500 && frame <= 1515) return 0;
-    if (frame >= 1350 && frame <= 1710) {
-      return interpolate(frame, [1350, 1410], [0.15, 0.4], {
-        extrapolateLeft: "clamp",
-        extrapolateRight: "clamp",
-      });
-    }
-    return 0.15;
-  })();
-
   // Sepia filter for emotional scene (frames 1350-1710)
   const sepiaAmount = interpolate(
     frame,
@@ -183,7 +170,7 @@ const HxHVideo: React.FC = () => {
             height: 1920,
             objectFit: "cover",
           }}
-          volume={0}
+          volume={1}
           playbackRate={70 / 60}
         />
       </div>
@@ -234,41 +221,22 @@ const HxHVideo: React.FC = () => {
         }}
       />
 
-      {/* === AUDIO LAYERS === */}
-      <Audio src={staticFile("audio/narration.mp3")} volume={1} />
-      <Audio src={staticFile("audio/bgmusic.mp3")} volume={musicVolume} />
+      {/* === SCENE EFFECTS (no duplicate text/audio — video has it baked in) === */}
 
-      {/* === SCENE EFFECTS (no duplicate text — video has it baked in) === */}
-
-      {/* Scene 1: Hook flash + SFX */}
+      {/* Scene 1: Hook flash */}
       <Sequence from={0} durationInFrames={90}>
         <FlashOverlay triggerFrame={10} />
-        <Audio src={staticFile("audio/sfx/whoosh.mp3")} volume={0.7} />
       </Sequence>
 
-      {/* Scene 2: Context — red alarm pulse + clock SFX */}
+      {/* Scene 2: Context — red alarm pulse */}
       <Sequence from={90} durationInFrames={210}>
         <RedPulseOverlay startFrame={0} endFrame={210} interval={35} />
-        <Audio src={staticFile("audio/sfx/clock.mp3")} volume={0.3} />
-      </Sequence>
-
-      {/* Scene 3: Build Up — heartbeat SFX */}
-      <Sequence from={300} durationInFrames={540}>
-        {frame >= 500 && (
-          <Audio src={staticFile("audio/sfx/heartbeat.mp3")} volume={0.4} />
-        )}
       </Sequence>
 
       {/* Scene 4: Reveal — impact flash + timer bar */}
       <Sequence from={840} durationInFrames={510}>
         <FlashOverlay triggerFrame={5} />
-        <Audio src={staticFile("audio/sfx/impact.mp3")} volume={0.7} />
         <TimerBar startFrame={0} endFrame={510} />
-      </Sequence>
-
-      {/* Scene 6: CTA — ping SFX */}
-      <Sequence from={1710} durationInFrames={90}>
-        <Audio src={staticFile("audio/sfx/ping.mp3")} volume={0.6} />
       </Sequence>
 
       {/* === PERSISTENT UI ELEMENTS === */}
