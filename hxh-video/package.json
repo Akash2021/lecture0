@@ -1,0 +1,21 @@
+{
+  "name": "hxh-chapter-414",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npx remotion studio",
+    "build": "npx remotion render HxHChapter414 out/hxh-ch414.mp4",
+    "preview": "npx remotion preview"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.500",
+    "@remotion/bundler": "4.0.500",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "4.0.500",
+    "typescript": "5.6.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0"
+  }
+}
