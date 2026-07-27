@@ -1,12 +1,15 @@
 import React from "react";
 import {
   Audio,
+  Img,
   interpolate,
+  spring,
   staticFile,
   useCurrentFrame,
+  useVideoConfig,
 } from "remotion";
-import { ObjectiveCard } from "../components/ObjectiveCard";
 import { CountdownBadge } from "../components/CountdownBadge";
+import kurapikaReveal from "../assets/kurapika-reveal.png";
 
 // Voiceover narration (28-45s):
 // "It was never about defeating the princes. That was the wrong objective.
@@ -15,6 +18,20 @@ import { CountdownBadge } from "../components/CountdownBadge";
 
 export const Reveal: React.FC = () => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  // Reveal image scales in
+  const revealSpring = spring({
+    frame: frame - 20,
+    fps,
+    config: { damping: 14, stiffness: 80, mass: 0.8 },
+  });
+  const revealScale = interpolate(revealSpring, [0, 1], [0.8, 1], {
+    extrapolateRight: "clamp",
+  });
+  const revealOpacity = interpolate(revealSpring, [0, 0.5], [0, 1], {
+    extrapolateRight: "clamp",
+  });
 
   // Timer bar depleting across bottom
   const timerProgress = interpolate(frame, [0, 510], [1, 0], {
@@ -40,10 +57,9 @@ export const Reveal: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        gap: 60,
       }}
     >
-      {/* Impact SFX at frame 20 and frame 120 (840+20=860, 840+120=960 global) */}
+      {/* Impact SFX at frame 20 and frame 120 */}
       {frame >= 20 && (
         <Audio src={staticFile("audio/sfx/impact.mp3")} volume={0.7} />
       )}
@@ -51,24 +67,24 @@ export const Reveal: React.FC = () => {
         <Audio src={staticFile("audio/sfx/impact.mp3")} volume={0.7} />
       )}
 
-      {/* Card 1: DEFEAT THE PRINCES (strikethrough) */}
-      <ObjectiveCard
-        icon="❌"
-        text="DEFEAT THE PRINCES"
-        bgColor="rgba(204, 0, 0, 0.3)"
-        direction="left"
-        appearFrame={20}
-        strikethrough={true}
-      />
-
-      {/* Card 2: FIND THE CURSED CHILD */}
-      <ObjectiveCard
-        icon="✅"
-        text="FIND THE CURSED CHILD"
-        bgColor="rgba(0, 153, 51, 0.3)"
-        direction="right"
-        appearFrame={120}
-      />
+      {/* Reveal image - old priority vs new objective */}
+      <div
+        style={{
+          transform: `scale(${revealScale})`,
+          opacity: revealOpacity,
+        }}
+      >
+        <Img
+          src={kurapikaReveal}
+          style={{
+            width: 960,
+            height: 650,
+            objectFit: "cover",
+            borderRadius: 16,
+            boxShadow: "0 8px 40px rgba(0,0,0,0.6)",
+          }}
+        />
+      </div>
 
       {/* Timer bar */}
       <div

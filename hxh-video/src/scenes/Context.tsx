@@ -1,16 +1,14 @@
 import React from "react";
 import {
   Audio,
+  Img,
   interpolate,
-  spring,
   staticFile,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
-import { panels } from "../assets/panels";
-import { PlaceholderPanel } from "../components/PlaceholderPanel";
 import { AlarmOverlay } from "../components/AlarmOverlay";
 import { CountdownBadge } from "../components/CountdownBadge";
+import blackwhaleCorridor from "../assets/blackwhalecorridor.png";
 
 // Voiceover narration (3-10s):
 // "The Black Whale is under martial law. Tensions between the princes
@@ -18,34 +16,19 @@ import { CountdownBadge } from "../components/CountdownBadge";
 
 export const Context: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
-  // Dark corridor background gradient
+  // Slow zoom on corridor
+  const zoom = interpolate(frame, [0, 210], [1, 1.12], {
+    extrapolateRight: "clamp",
+  });
+
+  // Corridor fade in
   const corridorOpacity = interpolate(frame, [0, 30], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  // Guards slide in from sides
-  const guard1X = spring({
-    frame: frame - 20,
-    fps,
-    config: { damping: 20, stiffness: 60 },
-  });
-  const guard2X = spring({
-    frame: frame - 30,
-    fps,
-    config: { damping: 20, stiffness: 60 },
-  });
-
-  const g1Translate = interpolate(guard1X, [0, 1], [-400, 80], {
-    extrapolateRight: "clamp",
-  });
-  const g2Translate = interpolate(guard2X, [0, 1], [1400, 700], {
-    extrapolateRight: "clamp",
-  });
-
-  // "Martial Law" text fades in at frame 30 (frame 120 global = frame 30 local)
+  // "Martial Law" text fades in at frame 30
   const textOpacity = interpolate(frame, [30, 50], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -64,47 +47,51 @@ export const Context: React.FC = () => {
       {/* Clock ticking SFX */}
       <Audio src={staticFile("audio/sfx/clock.mp3")} volume={0.3} />
 
-      {/* Dark corridor */}
+      {/* Black Whale corridor background - full bleed with slow zoom */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: `translate(-50%, -50%) scale(${zoom})`,
+          opacity: corridorOpacity,
+        }}
+      >
+        <Img
+          src={blackwhaleCorridor}
+          style={{
+            width: 1080,
+            height: 900,
+            objectFit: "cover",
+          }}
+        />
+      </div>
+
+      {/* Top gradient for text */}
       <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: 1080,
-          height: 1920,
-          background:
-            "linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 30%, #0f0f0f 70%, #050505 100%)",
-          opacity: corridorOpacity,
+          height: 500,
+          background: "linear-gradient(rgba(13,13,13,0.9), transparent)",
+          pointerEvents: "none",
         }}
       />
 
-      {/* Guard 1 */}
+      {/* Bottom gradient */}
       <div
         style={{
           position: "absolute",
-          top: 500,
-          left: g1Translate,
+          bottom: 0,
+          left: 0,
+          width: 1080,
+          height: 500,
+          background: "linear-gradient(transparent, rgba(13,13,13,0.95))",
+          pointerEvents: "none",
         }}
-      >
-        <PlaceholderPanel
-          panel={panels.guard1}
-          style={{ width: 250, height: 420 }}
-        />
-      </div>
-
-      {/* Guard 2 */}
-      <div
-        style={{
-          position: "absolute",
-          top: 480,
-          left: g2Translate,
-        }}
-      >
-        <PlaceholderPanel
-          panel={panels.guard2}
-          style={{ width: 250, height: 420 }}
-        />
-      </div>
+      />
 
       {/* Alarm overlay pulses every 30 frames */}
       <AlarmOverlay startFrame={0} interval={30} />
@@ -113,7 +100,7 @@ export const Context: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 350,
+          top: 250,
           width: 1080,
           textAlign: "center",
           opacity: textOpacity,
@@ -122,11 +109,11 @@ export const Context: React.FC = () => {
         <span
           style={{
             color: "#ffffff",
-            fontSize: 48,
+            fontSize: 56,
             fontFamily: "sans-serif",
             fontWeight: 800,
             letterSpacing: 4,
-            textShadow: "0 2px 4px rgba(0,0,0,0.8)",
+            textShadow: "0 2px 12px rgba(0,0,0,0.9), 0 0 40px rgba(204,0,0,0.3)",
           }}
         >
           MARTIAL LAW
@@ -134,11 +121,12 @@ export const Context: React.FC = () => {
         <br />
         <span
           style={{
-            color: "#999",
-            fontSize: 28,
+            color: "#ccc",
+            fontSize: 30,
             fontFamily: "sans-serif",
             fontWeight: 500,
             letterSpacing: 2,
+            textShadow: "0 2px 8px rgba(0,0,0,0.9)",
           }}
         >
           Black Whale Ship

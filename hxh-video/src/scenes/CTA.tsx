@@ -1,12 +1,14 @@
 import React from "react";
 import {
   Audio,
+  Img,
   interpolate,
   spring,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import kurapikaShip from "../assets/kurapika-ship.png";
 
 // Voiceover narration (57-60s):
 // "Drop your prediction below. Chapter 415 breakdown coming soon."
@@ -15,13 +17,14 @@ export const CTA: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Main text spring
-  const textSpring = spring({
-    frame,
-    fps,
-    config: { damping: 10, stiffness: 120, mass: 0.6 },
+  // Image fade in
+  const imgOpacity = interpolate(frame, [0, 20], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
   });
-  const textScale = interpolate(textSpring, [0, 1], [0.3, 1], {
+
+  // Subtle zoom on background
+  const zoom = interpolate(frame, [0, 90], [1, 1.05], {
     extrapolateRight: "clamp",
   });
 
@@ -32,9 +35,13 @@ export const CTA: React.FC = () => {
     [0.95, 1.05]
   );
 
-  // Sub text fade
-  const subTextOpacity = interpolate(frame, [20, 40], [0, 1], {
-    extrapolateLeft: "clamp",
+  // Overlay text spring
+  const textSpring = spring({
+    frame: frame - 5,
+    fps,
+    config: { damping: 10, stiffness: 120, mass: 0.6 },
+  });
+  const textScale = interpolate(textSpring, [0, 1], [0.3, 1], {
     extrapolateRight: "clamp",
   });
 
@@ -46,11 +53,6 @@ export const CTA: React.FC = () => {
         backgroundColor: "#0d0d0d",
         position: "relative",
         overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: 40,
       }}
     >
       {/* Notification ping SFX at frame 40 (1750 global) */}
@@ -58,7 +60,7 @@ export const CTA: React.FC = () => {
         <Audio src={staticFile("audio/sfx/ping.mp3")} volume={0.6} />
       )}
 
-      {/* Manga panel texture background */}
+      {/* CTA background image - Kurapika looking at ship */}
       <div
         style={{
           position: "absolute",
@@ -66,72 +68,110 @@ export const CTA: React.FC = () => {
           left: 0,
           width: 1080,
           height: 1920,
-          backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 41px), repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 41px)",
+          opacity: imgOpacity,
+          transform: `scale(${zoom})`,
+          transformOrigin: "center",
+        }}
+      >
+        <Img
+          src={kurapikaShip}
+          style={{
+            width: 1080,
+            height: 1920,
+            objectFit: "cover",
+            objectPosition: "center 20%",
+          }}
+        />
+      </div>
+
+      {/* Dark overlay for readability */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: 1080,
+          height: 1920,
+          background: "linear-gradient(rgba(13,13,13,0.3) 0%, rgba(13,13,13,0.7) 50%, rgba(13,13,13,0.9) 100%)",
+          pointerEvents: "none",
         }}
       />
 
-      {/* Main CTA text */}
+      {/* Content */}
       <div
         style={{
-          transform: `scale(${textScale})`,
-          textAlign: "center",
-          padding: "0 80px",
+          position: "absolute",
+          bottom: 300,
+          width: 1080,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 30,
         }}
       >
-        <span
+        {/* Main CTA text */}
+        <div
           style={{
-            color: "#ffffff",
-            fontSize: 56,
-            fontFamily: "sans-serif",
-            fontWeight: 900,
-            lineHeight: 1.3,
-            textShadow: "0 4px 12px rgba(0,0,0,0.8)",
+            transform: `scale(${textScale})`,
+            textAlign: "center",
+            padding: "0 80px",
           }}
         >
-          Drop your prediction{" "}
-          <span role="img" aria-label="point down">
-            {"👇"}
+          <span
+            style={{
+              color: "#ffffff",
+              fontSize: 52,
+              fontFamily: "sans-serif",
+              fontWeight: 900,
+              lineHeight: 1.3,
+              textShadow: "0 4px 12px rgba(0,0,0,0.8)",
+            }}
+          >
+            Drop your prediction{" "}
+            <span role="img" aria-label="point down">
+              {"👇"}
+            </span>
           </span>
-        </span>
-      </div>
+        </div>
 
-      {/* Subscribe button */}
-      <div
-        style={{
-          transform: `scale(${btnPulse})`,
-          backgroundColor: "#cc0000",
-          borderRadius: 12,
-          padding: "18px 60px",
-          boxShadow: "0 4px 20px rgba(204, 0, 0, 0.4)",
-        }}
-      >
-        <span
+        {/* Subscribe button */}
+        <div
           style={{
-            color: "#fff",
-            fontSize: 28,
-            fontFamily: "sans-serif",
-            fontWeight: 800,
-            letterSpacing: 3,
-            textTransform: "uppercase",
+            transform: `scale(${btnPulse})`,
+            backgroundColor: "#cc0000",
+            borderRadius: 12,
+            padding: "18px 60px",
+            boxShadow: "0 4px 20px rgba(204, 0, 0, 0.4)",
           }}
         >
-          SUBSCRIBE
-        </span>
-      </div>
+          <span
+            style={{
+              color: "#fff",
+              fontSize: 28,
+              fontFamily: "sans-serif",
+              fontWeight: 800,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+            }}
+          >
+            SUBSCRIBE
+          </span>
+        </div>
 
-      {/* Follow text */}
-      <div style={{ opacity: subTextOpacity, textAlign: "center", padding: "0 100px" }}>
-        <span
-          style={{
-            color: "#999",
-            fontSize: 24,
-            fontFamily: "sans-serif",
-            fontWeight: 500,
-          }}
-        >
-          Chapter 415 breakdown dropping soon — Follow now
-        </span>
+        {/* Follow text */}
+        <div style={{ textAlign: "center", padding: "0 100px" }}>
+          <span
+            style={{
+              color: "#ccc",
+              fontSize: 22,
+              fontFamily: "sans-serif",
+              fontWeight: 500,
+              textShadow: "0 2px 6px rgba(0,0,0,0.8)",
+            }}
+          >
+            Chapter 415 breakdown dropping soon — Follow now
+          </span>
+        </div>
       </div>
     </div>
   );

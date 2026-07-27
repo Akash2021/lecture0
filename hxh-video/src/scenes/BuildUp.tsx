@@ -1,39 +1,32 @@
 import React from "react";
 import {
   Audio,
+  Img,
   interpolate,
-  spring,
   staticFile,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
-import { panels } from "../assets/panels";
-import { PlaceholderPanel } from "../components/PlaceholderPanel";
-import { ConnectionLines } from "../components/ConnectionLines";
 import { CountdownBadge } from "../components/CountdownBadge";
+import kurapikaThinking from "../assets/kurapika-thinking.png";
 
 // Voiceover narration (10-28s):
 // "Think about it. The curse on Prince Woble. Beyond Netero's plan.
 //  And the connection between them all. Kurapika sees it now.
 //  The pieces are falling into place — and the picture is terrifying."
 
-const connectionNodes = [
-  { x: 250, y: 1200, label: "THE CURSE" },
-  { x: 540, y: 1050, label: "PRINCE WOBLE" },
-  { x: 830, y: 1200, label: "BEYOND'S PLAN" },
-];
-
 export const BuildUp: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
-  // Slow zoom on Kurapika thinking panel
+  // Slow zoom on the thinking panel
   const zoom = interpolate(frame, [0, 540], [1, 1.15], {
     extrapolateRight: "clamp",
   });
 
-  // Dialogue bubbles stagger every 40 frames starting at frame 60
-  const dialogues = [panels.dialogue1, panels.dialogue2, panels.dialogue3];
+  // Image fade in
+  const imgOpacity = interpolate(frame, [0, 40], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   // Countdown pulses at frame 300 (frame 600 global)
   const counterPulse = frame >= 300;
@@ -53,62 +46,83 @@ export const BuildUp: React.FC = () => {
         <Audio src={staticFile("audio/sfx/heartbeat.mp3")} volume={0.4} />
       )}
 
-      {/* Kurapika thinking - slow zoom */}
+      {/* Kurapika thinking panel - the image already has the connection
+          web with THE CURSE, THE BABY, MURDERS, SUCCESSION BATTLE */}
       <div
         style={{
           position: "absolute",
-          top: 200,
+          top: "50%",
           left: "50%",
-          transform: `translateX(-50%) scale(${zoom})`,
+          transform: `translate(-50%, -50%) scale(${zoom})`,
+          opacity: imgOpacity,
           transformOrigin: "center",
         }}
       >
-        <PlaceholderPanel
-          panel={panels.kurapikaThinking}
-          style={{ width: 700, height: 450 }}
+        <Img
+          src={kurapikaThinking}
+          style={{
+            width: 1080,
+            height: 820,
+            objectFit: "cover",
+            borderRadius: 12,
+          }}
         />
       </div>
 
-      {/* Dialogue bubbles */}
-      {dialogues.map((panel, i) => {
-        const appearAt = 60 + i * 40;
-        const bubbleSpring = spring({
-          frame: frame - appearAt,
-          fps,
-          config: { damping: 12, stiffness: 120 },
-        });
-        const bubbleScale = interpolate(bubbleSpring, [0, 1], [0, 1], {
-          extrapolateRight: "clamp",
-        });
-        const yOffset = 700 + i * 90;
-
-        if (frame < appearAt) return null;
-
-        return (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              top: yOffset,
-              left: "50%",
-              transform: `translateX(-50%) scale(${bubbleScale})`,
-              transformOrigin: "center",
-            }}
-          >
-            <PlaceholderPanel
-              panel={panel}
-              style={{ width: 500, height: 70, borderRadius: 20 }}
-            />
-          </div>
-        );
-      })}
-
-      {/* Connection lines between concept nodes */}
-      <ConnectionLines
-        nodes={connectionNodes}
-        appearFrame={180}
-        drawDuration={180}
+      {/* Top gradient */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: 1080,
+          height: 400,
+          background: "linear-gradient(rgba(13,13,13,0.85), transparent)",
+          pointerEvents: "none",
+        }}
       />
+
+      {/* Bottom gradient */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: 1080,
+          height: 500,
+          background: "linear-gradient(transparent, rgba(13,13,13,0.95))",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Subtitle text that appears as connections are revealed */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 350,
+          width: 1080,
+          textAlign: "center",
+          opacity: interpolate(frame, [300, 340], [0, 1], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+          padding: "0 80px",
+        }}
+      >
+        <span
+          style={{
+            color: "#e0e0e0",
+            fontSize: 32,
+            fontFamily: "sans-serif",
+            fontWeight: 600,
+            fontStyle: "italic",
+            textShadow: "0 2px 8px rgba(0,0,0,0.9)",
+            lineHeight: 1.5,
+          }}
+        >
+          They're all connected.
+        </span>
+      </div>
 
       <CountdownBadge visible={true} pulse={counterPulse} />
     </div>

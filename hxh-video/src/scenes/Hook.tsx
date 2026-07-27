@@ -1,15 +1,15 @@
 import React from "react";
 import {
   Audio,
+  Img,
   interpolate,
   spring,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { panels } from "../assets/panels";
-import { PlaceholderPanel } from "../components/PlaceholderPanel";
 import { CountdownBadge } from "../components/CountdownBadge";
+import kurapikaHook from "../assets/kurapika-hook.png";
 
 // Voiceover narration (0-3s):
 // "Everything we thought we knew about Kurapika's mission... just changed."
@@ -18,7 +18,7 @@ export const Hook: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Punch zoom on Kurapika's face panel
+  // Punch zoom on Kurapika panel
   const zoomScale = interpolate(frame, [0, 15], [3, 1.2], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -65,21 +65,39 @@ export const Hook: React.FC = () => {
         <Audio src={staticFile("audio/sfx/impact.mp3")} startFrom={0} volume={0.8} />
       )}
 
-      {/* Kurapika face panel - punch zoom */}
+      {/* Kurapika panel - punch zoom */}
       <div
         style={{
           position: "absolute",
           top: "50%",
           left: "50%",
-          transform: `translate(-50%, -60%) scale(${zoomScale})`,
+          transform: `translate(-50%, -55%) scale(${zoomScale})`,
           transformOrigin: "center",
         }}
       >
-        <PlaceholderPanel
-          panel={panels.kurapikaFace}
-          style={{ width: 400, height: 480 }}
+        <Img
+          src={kurapikaHook}
+          style={{
+            width: 900,
+            height: 750,
+            objectFit: "cover",
+            borderRadius: 12,
+          }}
         />
       </div>
+
+      {/* Dark gradient overlay for text readability */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: 1080,
+          height: 600,
+          background: "linear-gradient(transparent, rgba(13,13,13,0.95))",
+          pointerEvents: "none",
+        }}
+      />
 
       {/* Flash overlay */}
       <div
@@ -100,7 +118,7 @@ export const Hook: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 750,
+            top: 1150,
             width: 1080,
             textAlign: "center",
             transform: `scale(${titleScale})`,
@@ -125,7 +143,7 @@ export const Hook: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 860,
+          top: 1260,
           width: 1080,
           textAlign: "center",
           opacity: subtitleOpacity,
