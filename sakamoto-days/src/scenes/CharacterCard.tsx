@@ -1,0 +1,221 @@
+import React from "react";
+import {
+  interpolate,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
+import { Character } from "../assets/characters";
+import { RankNumber } from "../components/RankNumber";
+import { Silhouette } from "../components/Silhouette";
+import { StatBar } from "../components/StatBar";
+import { PowerLevelCounter } from "../components/PowerLevelCounter";
+import { CrownBadge } from "../components/CrownBadge";
+
+interface CharacterCardProps {
+  character: Character;
+  isRank1?: boolean;
+}
+
+export const CharacterCard: React.FC<CharacterCardProps> = ({
+  character,
+  isRank1 = false,
+}) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const panelSlide = spring({
+    frame: frame - 60,
+    fps,
+    config: { damping: 16, stiffness: 80 },
+  });
+
+  const panelX = interpolate(panelSlide, [0, 1], [600, 0]);
+  const panelOpacity = interpolate(panelSlide, [0, 1], [0, 1]);
+
+  const featTyping = interpolate(frame - 100, [0, 60], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const featChars = Math.round(character.keyFeat.length * featTyping);
+
+  const bgPulseSpeed = isRank1 ? 0.12 : 0.06;
+  const bgPulse = interpolate(
+    Math.sin(frame * bgPulseSpeed),
+    [-1, 1],
+    [0.03, 0.08]
+  );
+
+  const goldFlashOpacity =
+    isRank1 && frame >= 5 && frame < 20
+      ? interpolate(frame, [5, 10, 20], [0, 0.4, 0], {
+          extrapolateRight: "clamp",
+        })
+      : 0;
+
+  return (
+    <div
+      style={{
+        width: 1080,
+        height: 1920,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Character-tinted background */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: `radial-gradient(ellipse at 30% 50%, ${character.color}${Math.round(bgPulse * 255).toString(16).padStart(2, "0")} 0%, transparent 60%)`,
+        }}
+      />
+
+      {/* Gold flash for rank 1 */}
+      {goldFlashOpacity > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "#FFD700",
+            opacity: goldFlashOpacity,
+            zIndex: 5,
+          }}
+        />
+      )}
+
+      {/* Rank number */}
+      <RankNumber rank={character.rank} color={character.color} />
+
+      {/* Crown badge for #1 */}
+      {isRank1 && <CrownBadge />}
+
+      {/* Silhouette on left */}
+      <div
+        style={{
+          position: "absolute",
+          left: 40,
+          top: 500,
+        }}
+      >
+        <Silhouette character={character} isRank1={isRank1} />
+      </div>
+
+      {/* Info panel on right */}
+      <div
+        style={{
+          position: "absolute",
+          right: 40,
+          top: 560,
+          width: 520,
+          opacity: panelOpacity,
+          transform: `translateX(${panelX}px)`,
+        }}
+      >
+        <h2
+          style={{
+            fontFamily: "Oswald, sans-serif",
+            fontSize: 56,
+            fontWeight: 700,
+            color: "white",
+            textTransform: "uppercase",
+            margin: 0,
+            lineHeight: 1.1,
+            textShadow: `0 0 20px ${character.color}44`,
+          }}
+        >
+          {character.name}
+        </h2>
+        <p
+          style={{
+            fontFamily: "Oswald, sans-serif",
+            fontSize: 26,
+            fontWeight: 400,
+            color: character.color,
+            textTransform: "uppercase",
+            letterSpacing: 3,
+            margin: 0,
+            marginTop: 6,
+          }}
+        >
+          {character.title}
+        </p>
+
+        {/* Power level counter (bonus) */}
+        <PowerLevelCounter
+          powerLevel={character.powerLevel}
+          color={character.color}
+          delay={70}
+        />
+
+        {/* Stat bars */}
+        <div style={{ marginTop: 30 }}>
+          <StatBar
+            label="Power"
+            value={character.stats.power}
+            color={character.color}
+            delay={80}
+          />
+          <StatBar
+            label="Speed"
+            value={character.stats.speed}
+            color={character.color}
+            delay={90}
+          />
+          <StatBar
+            label="Technique"
+            value={character.stats.technique}
+            color={character.color}
+            delay={100}
+          />
+        </div>
+
+        {/* Key feat */}
+        <div
+          style={{
+            marginTop: 30,
+            padding: "16px 20px",
+            background: "rgba(255,255,255,0.04)",
+            borderLeft: `3px solid ${character.color}`,
+            borderRadius: 4,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "Oswald, sans-serif",
+              fontSize: 12,
+              fontWeight: 500,
+              color: "rgba(255,255,255,0.4)",
+              textTransform: "uppercase",
+              letterSpacing: 3,
+            }}
+          >
+            KEY FEAT
+          </span>
+          <p
+            style={{
+              fontFamily: "sans-serif",
+              fontSize: 20,
+              fontWeight: 400,
+              color: "rgba(255,255,255,0.85)",
+              lineHeight: 1.5,
+              margin: 0,
+              marginTop: 8,
+            }}
+          >
+            {character.keyFeat.slice(0, featChars)}
+            {featChars < character.keyFeat.length && (
+              <span style={{ opacity: frame % 6 < 3 ? 1 : 0 }}>|</span>
+            )}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
