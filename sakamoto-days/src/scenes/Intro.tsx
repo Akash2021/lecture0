@@ -40,8 +40,6 @@ export const Intro: React.FC = () => {
         )
       : 0;
 
-  const flickerNumbers = [5, 4, 3, 2, 1];
-
   return (
     <div
       style={{
@@ -130,47 +128,6 @@ export const Intro: React.FC = () => {
           CHARACTERS
         </h3>
       </div>
-
-      {/* Number flicker teaser */}
-      {frame >= 70 && frame < 140 && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 400,
-            display: "flex",
-            gap: 30,
-          }}
-        >
-          {flickerNumbers.map((n, i) => {
-            const flickerStart = 70 + i * 12;
-            const flickerOpacity =
-              frame >= flickerStart && frame < flickerStart + 10
-                ? interpolate(
-                    frame - flickerStart,
-                    [0, 3, 7, 10],
-                    [0, 1, 1, 0],
-                    { extrapolateRight: "clamp" }
-                  )
-                : 0;
-
-            return (
-              <span
-                key={n}
-                style={{
-                  fontFamily: "Oswald, sans-serif",
-                  fontSize: 72,
-                  fontWeight: 700,
-                  color: "white",
-                  opacity: flickerOpacity,
-                  textShadow: "0 0 20px rgba(244,67,54,0.8)",
-                }}
-              >
-                {n}
-              </span>
-            );
-          })}
-        </div>
-      )}
 
       {/* Crosshair particles */}
       {Array.from({ length: 8 }).map((_, i) => {

@@ -77,7 +77,7 @@ export const characters: Character[] = [
   },
 ];
 
-export const INTRO_FRAMES = 150; // 5s
-export const CHAR_FRAMES = 375; // 12.5s per character (ranks 5-2)
-export const RANK1_FRAMES = 450; // 15s for #1
+export const INTRO_FRAMES = 90; // 3s
+export const CHAR_FRAMES = 330; // 11s per character (ranks 5-2)
+export const RANK1_FRAMES = 405; // 13.5s for #1
 export const OUTRO_FRAMES = 200; // ~6.7s

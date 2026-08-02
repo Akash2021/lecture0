@@ -50,7 +50,7 @@ export const Silhouette: React.FC<SilhouetteProps> = ({
   const translateY = compact ? 0 : interpolate(slideIn, [0, 1], [100, 0]);
   const opacity = compact ? 1 : interpolate(slideIn, [0, 1], [0, 1]);
 
-  const size = compact ? 120 : 550;
+  const size = compact ? 120 : 420;
 
   const flameGlow =
     isRank1 && !compact
