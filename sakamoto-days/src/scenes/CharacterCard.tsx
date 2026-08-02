@@ -30,7 +30,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
     config: { damping: 16, stiffness: 80 },
   });
 
-  const panelX = interpolate(panelSlide, [0, 1], [600, 0]);
+  const panelY = interpolate(panelSlide, [0, 1], [300, 0]);
   const panelOpacity = interpolate(panelSlide, [0, 1], [0, 1]);
 
   const featTyping = interpolate(frame - 100, [0, 60], [0, 1], {
@@ -62,7 +62,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         overflow: "hidden",
       }}
     >
-      {/* Character-tinted background */}
+      {/* Character-tinted background glow */}
       <div
         style={{
           position: "absolute",
@@ -70,7 +70,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           left: 0,
           width: "100%",
           height: "100%",
-          background: `radial-gradient(ellipse at 30% 50%, ${character.color}${Math.round(bgPulse * 255).toString(16).padStart(2, "0")} 0%, transparent 60%)`,
+          background: `radial-gradient(ellipse at 50% 35%, ${character.color}${Math.round(bgPulse * 255).toString(16).padStart(2, "0")} 0%, transparent 55%)`,
         }}
       />
 
@@ -90,72 +90,93 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         />
       )}
 
-      {/* Rank number */}
+      {/* Rank number — top area */}
       <RankNumber rank={character.rank} color={character.color} />
 
       {/* Crown badge for #1 */}
       {isRank1 && <CrownBadge />}
 
-      {/* Silhouette on left */}
+      {/* Character silhouette/image — centered in top half */}
       <div
         style={{
           position: "absolute",
-          left: 40,
-          top: 500,
+          top: 280,
+          left: 0,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 2,
         }}
       >
         <Silhouette character={character} isRank1={isRank1} />
       </div>
 
-      {/* Info panel on right */}
+      {/* Info panel — bottom half */}
       <div
         style={{
           position: "absolute",
-          right: 40,
-          top: 560,
-          width: 520,
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          padding: "0 60px 60px",
           opacity: panelOpacity,
-          transform: `translateX(${panelX}px)`,
+          transform: `translateY(${panelY}px)`,
+          zIndex: 3,
         }}
       >
-        <h2
+        {/* Gradient overlay so text is readable over silhouette */}
+        <div
           style={{
-            fontFamily: "Oswald, sans-serif",
-            fontSize: 56,
-            fontWeight: 700,
-            color: "white",
-            textTransform: "uppercase",
-            margin: 0,
-            lineHeight: 1.1,
-            textShadow: `0 0 20px ${character.color}44`,
+            position: "absolute",
+            top: -120,
+            left: 0,
+            width: "100%",
+            height: 120,
+            background: "linear-gradient(0deg, #0a0a12 0%, transparent 100%)",
           }}
-        >
-          {character.name}
-        </h2>
+        />
+
+        {/* Name + title row */}
+        <div style={{ display: "flex", alignItems: "baseline", gap: 16, flexWrap: "wrap" }}>
+          <h2
+            style={{
+              fontFamily: "Oswald, sans-serif",
+              fontSize: 72,
+              fontWeight: 700,
+              color: "white",
+              textTransform: "uppercase",
+              margin: 0,
+              lineHeight: 1.1,
+              textShadow: `0 0 30px ${character.color}66`,
+            }}
+          >
+            {character.name}
+          </h2>
+        </div>
         <p
           style={{
             fontFamily: "Oswald, sans-serif",
-            fontSize: 26,
+            fontSize: 30,
             fontWeight: 400,
             color: character.color,
             textTransform: "uppercase",
-            letterSpacing: 3,
+            letterSpacing: 4,
             margin: 0,
-            marginTop: 6,
+            marginTop: 8,
           }}
         >
           {character.title}
         </p>
 
-        {/* Power level counter (bonus) */}
+        {/* Power level counter */}
         <PowerLevelCounter
           powerLevel={character.powerLevel}
           color={character.color}
           delay={70}
         />
 
-        {/* Stat bars */}
-        <div style={{ marginTop: 30 }}>
+        {/* Stat bars — full width */}
+        <div style={{ marginTop: 28 }}>
           <StatBar
             label="Power"
             value={character.stats.power}
@@ -179,17 +200,17 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         {/* Key feat */}
         <div
           style={{
-            marginTop: 30,
-            padding: "16px 20px",
+            marginTop: 28,
+            padding: "18px 24px",
             background: "rgba(255,255,255,0.04)",
-            borderLeft: `3px solid ${character.color}`,
-            borderRadius: 4,
+            borderLeft: `4px solid ${character.color}`,
+            borderRadius: 6,
           }}
         >
           <span
             style={{
               fontFamily: "Oswald, sans-serif",
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 500,
               color: "rgba(255,255,255,0.4)",
               textTransform: "uppercase",
@@ -201,12 +222,12 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           <p
             style={{
               fontFamily: "sans-serif",
-              fontSize: 20,
+              fontSize: 24,
               fontWeight: 400,
               color: "rgba(255,255,255,0.85)",
               lineHeight: 1.5,
               margin: 0,
-              marginTop: 8,
+              marginTop: 10,
             }}
           >
             {character.keyFeat.slice(0, featChars)}

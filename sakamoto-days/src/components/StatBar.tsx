@@ -34,7 +34,7 @@ export const StatBar: React.FC<StatBarProps> = ({
           justifyContent: "space-between",
           marginBottom: 6,
           fontFamily: "Oswald, sans-serif",
-          fontSize: 22,
+          fontSize: 26,
           fontWeight: 600,
           color: "rgba(255,255,255,0.8)",
           textTransform: "uppercase",
@@ -47,7 +47,7 @@ export const StatBar: React.FC<StatBarProps> = ({
       <div
         style={{
           width: "100%",
-          height: 18,
+          height: 22,
           borderRadius: 9,
           background: "rgba(255,255,255,0.08)",
           overflow: "hidden",

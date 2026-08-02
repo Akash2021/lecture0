@@ -1,3 +1,6 @@
+// To add images: drop PNGs into /public/characters/ and set imagePath, e.g.:
+//   imagePath: "/characters/sakamoto.png"
+
 export interface CharacterStats {
   power: number;
   speed: number;
@@ -13,6 +16,7 @@ export interface Character {
   keyFeat: string;
   powerLevel: number;
   silhouetteDesc: string;
+  imagePath: string | null;
 }
 
 export const characters: Character[] = [
@@ -25,6 +29,7 @@ export const characters: Character[] = [
     keyFeat: "Snaps necks before victims notice. Defeated Kashima and his own mentor Yotsumura.",
     powerLevel: 7800,
     silhouetteDesc: "medium build, claw hammers in both hands",
+    imagePath: null,
   },
   {
     rank: 4,
@@ -35,6 +40,7 @@ export const characters: Character[] = [
     keyFeat: "Destroyed an entire JAA branch solo. One of the very few to survive fighting Takamura.",
     powerLevel: 8200,
     silhouetteDesc: "large muscular figure holding a mace",
+    imagePath: null,
   },
   {
     rank: 3,
@@ -45,6 +51,7 @@ export const characters: Character[] = [
     keyFeat: "Master of disguise, blades, and firearms. Recognized as one of the Order's top two alongside Sakamoto.",
     powerLevel: 9100,
     silhouetteDesc: "slim figure in a casual stance",
+    imagePath: null,
   },
   {
     rank: 2,
@@ -55,6 +62,7 @@ export const characters: Character[] = [
     keyFeat: "Sent Takamura flying with one kick. Turns anything into a weapon. A legend even in retirement.",
     powerLevel: 9500,
     silhouetteDesc: "stocky round build, iconic retired form",
+    imagePath: null,
   },
   {
     rank: 1,
@@ -65,6 +73,7 @@ export const characters: Character[] = [
     keyFeat: "Slashes buildings in half. Fought Nagumo, Uzuki, and Sakamoto at the same time. The absolute ceiling.",
     powerLevel: 9999,
     silhouetteDesc: "tall elderly figure with katana, slight forward lean",
+    imagePath: null,
   },
 ];
 

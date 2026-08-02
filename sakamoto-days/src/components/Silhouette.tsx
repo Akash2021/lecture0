@@ -1,5 +1,12 @@
 import React from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import {
+  Img,
+  interpolate,
+  spring,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 
 interface SilhouetteProps {
   character: {
@@ -7,6 +14,7 @@ interface SilhouetteProps {
     color: string;
     rank: number;
     silhouetteDesc: string;
+    imagePath?: string | null;
   };
   isRank1?: boolean;
   compact?: boolean;
@@ -39,14 +47,17 @@ export const Silhouette: React.FC<SilhouetteProps> = ({
     config: { damping: 14, stiffness: 80 },
   });
 
-  const translateX = compact ? 0 : interpolate(slideIn, [0, 1], [-400, 0]);
+  const translateY = compact ? 0 : interpolate(slideIn, [0, 1], [100, 0]);
   const opacity = compact ? 1 : interpolate(slideIn, [0, 1], [0, 1]);
 
-  const size = compact ? 120 : 360;
+  const size = compact ? 120 : 550;
 
-  const flameGlow = isRank1 && !compact
-    ? interpolate(frame % 30, [0, 15, 30], [30, 60, 30])
-    : 0;
+  const flameGlow =
+    isRank1 && !compact
+      ? interpolate(frame % 30, [0, 15, 30], [30, 60, 30])
+      : 0;
+
+  const hasImage = character.imagePath != null;
 
   const path =
     silhouettePaths[character.name] || silhouettePaths["Nagumo"];
@@ -56,43 +67,63 @@ export const Silhouette: React.FC<SilhouetteProps> = ({
       style={{
         width: size,
         height: size,
-        transform: compact ? undefined : `translateX(${translateX}px)`,
+        transform: compact ? undefined : `translateY(${translateY}px)`,
         opacity,
         position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <svg
-        viewBox="20 15 60 85"
-        width={size}
-        height={size}
-        style={{
-          filter: isRank1 && !compact
-            ? `drop-shadow(0 0 ${flameGlow}px ${character.color}) drop-shadow(0 0 ${flameGlow * 2}px ${character.color}66)`
-            : `drop-shadow(0 0 15px ${character.color}88)`,
-        }}
-      >
-        <defs>
-          <linearGradient
-            id={`grad-${character.name.replace(/\s/g, "")}`}
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor={character.color} />
-            <stop offset="100%" stopColor={`${character.color}88`} />
-          </linearGradient>
-        </defs>
-        <path
-          d={path}
-          fill={`url(#grad-${character.name.replace(/\s/g, "")})`}
+      {hasImage ? (
+        <Img
+          src={staticFile(character.imagePath!)}
+          style={{
+            width: size,
+            height: size,
+            objectFit: "contain",
+            filter:
+              isRank1 && !compact
+                ? `drop-shadow(0 0 ${flameGlow}px ${character.color}) drop-shadow(0 0 ${flameGlow * 2}px ${character.color}66)`
+                : `drop-shadow(0 0 20px ${character.color}88)`,
+          }}
         />
-      </svg>
+      ) : (
+        <svg
+          viewBox="20 15 60 85"
+          width={size}
+          height={size}
+          style={{
+            filter:
+              isRank1 && !compact
+                ? `drop-shadow(0 0 ${flameGlow}px ${character.color}) drop-shadow(0 0 ${flameGlow * 2}px ${character.color}66)`
+                : `drop-shadow(0 0 20px ${character.color}88)`,
+          }}
+        >
+          <defs>
+            <linearGradient
+              id={`grad-${character.name.replace(/\s/g, "")}`}
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+              <stop offset="0%" stopColor={character.color} />
+              <stop offset="100%" stopColor={`${character.color}88`} />
+            </linearGradient>
+          </defs>
+          <path
+            d={path}
+            fill={`url(#grad-${character.name.replace(/\s/g, "")})`}
+          />
+        </svg>
+      )}
       {/* Particle aura */}
       {!compact &&
         Array.from({ length: isRank1 ? 12 : 6 }).map((_, i) => {
-          const angle = (i / (isRank1 ? 12 : 6)) * Math.PI * 2 + frame * 0.03;
-          const radius = 140 + Math.sin(frame * 0.08 + i) * 20;
+          const angle =
+            (i / (isRank1 ? 12 : 6)) * Math.PI * 2 + frame * 0.03;
+          const radius = (size / 2) * 0.75 + Math.sin(frame * 0.08 + i) * 20;
           const px = Math.cos(angle) * radius + size / 2;
           const py = Math.sin(angle) * radius + size / 2;
           const particleOpacity = interpolate(
