@@ -90,17 +90,19 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         />
       )}
 
-      {/* Rank number — top area */}
-      <RankNumber rank={character.rank} color={character.color} />
+      {/* Rank number — behind image */}
+      <div style={{ zIndex: 1 }}>
+        <RankNumber rank={character.rank} color={character.color} />
+      </div>
 
       {/* Crown badge for #1 */}
       {isRank1 && <CrownBadge />}
 
-      {/* Character silhouette/image — centered in top half */}
+      {/* Character silhouette/image — upper area */}
       <div
         style={{
           position: "absolute",
-          top: 280,
+          top: 100,
           left: 0,
           width: "100%",
           display: "flex",
@@ -111,14 +113,14 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         <Silhouette character={character} isRank1={isRank1} />
       </div>
 
-      {/* Info panel — bottom half */}
+      {/* Info panel — starts higher, uses more space */}
       <div
         style={{
           position: "absolute",
-          bottom: 0,
+          bottom: 40,
           left: 0,
           width: "100%",
-          padding: "0 60px 60px",
+          padding: "0 60px",
           opacity: panelOpacity,
           transform: `translateY(${panelY}px)`,
           zIndex: 3,
@@ -128,10 +130,10 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         <div
           style={{
             position: "absolute",
-            top: -120,
+            top: -160,
             left: 0,
             width: "100%",
-            height: 120,
+            height: 160,
             background: "linear-gradient(0deg, #0a0a12 0%, transparent 100%)",
           }}
         />
@@ -210,7 +212,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           <span
             style={{
               fontFamily: "Oswald, sans-serif",
-              fontSize: 14,
+              fontSize: 22,
               fontWeight: 500,
               color: "rgba(255,255,255,0.4)",
               textTransform: "uppercase",
@@ -222,7 +224,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           <p
             style={{
               fontFamily: "sans-serif",
-              fontSize: 24,
+              fontSize: 32,
               fontWeight: 400,
               color: "rgba(255,255,255,0.85)",
               lineHeight: 1.5,

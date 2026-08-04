@@ -39,7 +39,7 @@ export const RankNumber: React.FC<RankNumberProps> = ({ rank, color }) => {
     <div
       style={{
         position: "absolute",
-        top: 200,
+        top: 60,
         left: 0,
         width: "100%",
         display: "flex",
