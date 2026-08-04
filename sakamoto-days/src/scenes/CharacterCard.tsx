@@ -117,7 +117,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
       <div
         style={{
           position: "absolute",
-          top: 780,
+          top: 700,
           left: 0,
           width: "100%",
           padding: "0 60px",
