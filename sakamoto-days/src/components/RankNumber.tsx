@@ -38,10 +38,6 @@ export const RankNumber: React.FC<RankNumberProps> = ({ rank, color }) => {
   return (
     <div
       style={{
-        position: "absolute",
-        top: 60,
-        left: 0,
-        width: "100%",
         display: "flex",
         justifyContent: "center",
         transform: `translateX(${translateX + shakeX}px) translateY(${shakeY}px) scale(${scale})`,
@@ -49,7 +45,7 @@ export const RankNumber: React.FC<RankNumberProps> = ({ rank, color }) => {
     >
       <span
         style={{
-          fontSize: 280,
+          fontSize: 180,
           fontWeight: 900,
           fontFamily: "Oswald, sans-serif",
           color: "transparent",

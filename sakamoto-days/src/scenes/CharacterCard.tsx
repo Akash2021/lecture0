@@ -60,6 +60,10 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         height: 1920,
         position: "relative",
         overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "40px 60px 60px",
       }}
     >
       {/* Character-tinted background glow */}
@@ -71,6 +75,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           width: "100%",
           height: "100%",
           background: `radial-gradient(ellipse at 50% 35%, ${character.color}${Math.round(bgPulse * 255).toString(16).padStart(2, "0")} 0%, transparent 55%)`,
+          zIndex: 0,
         }}
       />
 
@@ -90,71 +95,55 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         />
       )}
 
-      {/* Rank number — behind image */}
-      <div style={{ zIndex: 1 }}>
-        <RankNumber rank={character.rank} color={character.color} />
-      </div>
-
       {/* Crown badge for #1 */}
       {isRank1 && <CrownBadge />}
 
-      {/* Character silhouette/image — upper area */}
+      {/* Rank number — top */}
+      <div style={{ position: "relative", zIndex: 2, width: "100%" }}>
+        <RankNumber rank={character.rank} color={character.color} />
+      </div>
+
+      {/* Character image — centered */}
       <div
         style={{
-          position: "absolute",
-          top: 60,
-          left: 0,
-          width: "100%",
+          position: "relative",
+          zIndex: 2,
           display: "flex",
           justifyContent: "center",
-          zIndex: 2,
+          marginTop: 80,
         }}
       >
         <Silhouette character={character} isRank1={isRank1} />
       </div>
 
-      {/* Info panel — positioned right below image */}
+      {/* Info panel — flows below image */}
       <div
         style={{
-          position: "absolute",
-          top: 700,
-          left: 0,
+          position: "relative",
           width: "100%",
-          padding: "0 60px",
+          marginTop: 30,
           opacity: panelOpacity,
           transform: `translateY(${panelY}px)`,
           zIndex: 3,
         }}
       >
-        {/* Gradient overlay so text is readable over silhouette */}
-        <div
+        {/* Name */}
+        <h2
           style={{
-            position: "absolute",
-            top: -160,
-            left: 0,
-            width: "100%",
-            height: 160,
-            background: "linear-gradient(0deg, #0a0a12 0%, transparent 100%)",
+            fontFamily: "Oswald, sans-serif",
+            fontSize: 72,
+            fontWeight: 700,
+            color: "white",
+            textTransform: "uppercase",
+            margin: 0,
+            lineHeight: 1.1,
+            textShadow: `0 0 30px ${character.color}66`,
           }}
-        />
+        >
+          {character.name}
+        </h2>
 
-        {/* Name + title row */}
-        <div style={{ display: "flex", alignItems: "baseline", gap: 16, flexWrap: "wrap" }}>
-          <h2
-            style={{
-              fontFamily: "Oswald, sans-serif",
-              fontSize: 72,
-              fontWeight: 700,
-              color: "white",
-              textTransform: "uppercase",
-              margin: 0,
-              lineHeight: 1.1,
-              textShadow: `0 0 30px ${character.color}66`,
-            }}
-          >
-            {character.name}
-          </h2>
-        </div>
+        {/* Title */}
         <p
           style={{
             fontFamily: "Oswald, sans-serif",
@@ -177,8 +166,8 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           delay={70}
         />
 
-        {/* Stat bars — full width */}
-        <div style={{ marginTop: 28 }}>
+        {/* Stat bars */}
+        <div style={{ marginTop: 24 }}>
           <StatBar
             label="Power"
             value={character.stats.power}
@@ -202,7 +191,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         {/* Key feat */}
         <div
           style={{
-            marginTop: 28,
+            marginTop: 24,
             padding: "18px 24px",
             background: "rgba(255,255,255,0.04)",
             borderLeft: `4px solid ${character.color}`,
