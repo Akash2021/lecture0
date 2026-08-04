@@ -113,11 +113,11 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         <Silhouette character={character} isRank1={isRank1} />
       </div>
 
-      {/* Info panel — starts higher, uses more space */}
+      {/* Info panel — positioned right below image */}
       <div
         style={{
           position: "absolute",
-          bottom: 40,
+          top: 780,
           left: 0,
           width: "100%",
           padding: "0 60px",
