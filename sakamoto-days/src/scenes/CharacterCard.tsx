@@ -110,7 +110,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           zIndex: 2,
           display: "flex",
           justifyContent: "center",
-          marginTop: 80,
+          marginTop: 40,
         }}
       >
         <Silhouette character={character} isRank1={isRank1} />
@@ -121,7 +121,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         style={{
           position: "relative",
           width: "100%",
-          marginTop: 30,
+          marginTop: 40,
           opacity: panelOpacity,
           transform: `translateY(${panelY}px)`,
           zIndex: 3,
@@ -167,7 +167,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         />
 
         {/* Stat bars */}
-        <div style={{ marginTop: 24 }}>
+        <div style={{ marginTop: 32 }}>
           <StatBar
             label="Power"
             value={character.stats.power}
@@ -191,8 +191,8 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         {/* Key feat */}
         <div
           style={{
-            marginTop: 24,
-            padding: "18px 24px",
+            marginTop: 32,
+            padding: "22px 28px",
             background: "rgba(255,255,255,0.04)",
             borderLeft: `4px solid ${character.color}`,
             borderRadius: 6,
@@ -201,7 +201,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           <span
             style={{
               fontFamily: "Oswald, sans-serif",
-              fontSize: 22,
+              fontSize: 26,
               fontWeight: 500,
               color: "rgba(255,255,255,0.4)",
               textTransform: "uppercase",
@@ -213,7 +213,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           <p
             style={{
               fontFamily: "sans-serif",
-              fontSize: 32,
+              fontSize: 38,
               fontWeight: 400,
               color: "rgba(255,255,255,0.85)",
               lineHeight: 1.5,
