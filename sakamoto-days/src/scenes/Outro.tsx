@@ -13,11 +13,6 @@ export const Outro: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  const fadeOut = interpolate(frame, [150, 200], [1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
   return (
     <div
       style={{
@@ -28,7 +23,6 @@ export const Outro: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        opacity: fadeOut,
       }}
     >
       {/* Lineup */}
