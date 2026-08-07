@@ -33,7 +33,7 @@ export const PowerLevelCounter: React.FC<PowerLevelCounterProps> = ({
       <span
         style={{
           fontFamily: "Oswald, sans-serif",
-          fontSize: 18,
+          fontSize: 24,
           fontWeight: 500,
           color: "rgba(255,255,255,0.5)",
           textTransform: "uppercase",
@@ -45,7 +45,7 @@ export const PowerLevelCounter: React.FC<PowerLevelCounterProps> = ({
       <span
         style={{
           fontFamily: "Oswald, sans-serif",
-          fontSize: 36,
+          fontSize: 48,
           fontWeight: 700,
           color,
           textShadow: `0 0 10px ${color}66`,

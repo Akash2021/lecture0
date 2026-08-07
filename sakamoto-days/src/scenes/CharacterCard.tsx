@@ -63,7 +63,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: "40px 60px 60px",
+        padding: "60px 60px 60px",
       }}
     >
       {/* Character-tinted background glow */}
@@ -131,7 +131,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         <h2
           style={{
             fontFamily: "Oswald, sans-serif",
-            fontSize: 72,
+            fontSize: 82,
             fontWeight: 700,
             color: "white",
             textTransform: "uppercase",
@@ -147,7 +147,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         <p
           style={{
             fontFamily: "Oswald, sans-serif",
-            fontSize: 30,
+            fontSize: 36,
             fontWeight: 400,
             color: character.color,
             textTransform: "uppercase",
