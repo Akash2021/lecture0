@@ -1,0 +1,28 @@
+{
+  "name": "bluelock-video",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render BlueLockTransferValue out/bluelock.mp4",
+    "still": "remotion still BlueLockTransferValue --frame=0 out/preview.png"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@remotion/cli": "^4.0.507",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.507",
+    "typescript": "^5.9.3"
+  },
+  "remotion": {
+    "entryPoint": "src/index.ts"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4"
+  }
+}
