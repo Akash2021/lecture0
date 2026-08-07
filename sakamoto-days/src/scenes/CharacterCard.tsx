@@ -103,7 +103,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
         <RankNumber rank={character.rank} color={character.color} />
       </div>
 
-      {/* Character image — centered */}
+      {/* Character image — centered with slow zoom */}
       <div
         style={{
           position: "relative",
@@ -111,6 +111,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           display: "flex",
           justifyContent: "center",
           marginTop: 40,
+          transform: `scale(${interpolate(frame, [0, 300], [1, 1.06], { extrapolateRight: "clamp" })})`,
         }}
       >
         <Silhouette character={character} isRank1={isRank1} />

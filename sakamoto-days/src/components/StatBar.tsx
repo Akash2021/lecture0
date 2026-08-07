@@ -26,6 +26,11 @@ export const StatBar: React.FC<StatBarProps> = ({
   const width = interpolate(progress, [0, 1], [0, value]);
   const displayValue = Math.round(width);
 
+  const pulseGlow =
+    progress > 0.95
+      ? interpolate(Math.sin((frame - delay) * 0.15), [-1, 1], [8, 20])
+      : 0;
+
   return (
     <div style={{ marginBottom: 16 }}>
       <div
@@ -59,7 +64,7 @@ export const StatBar: React.FC<StatBarProps> = ({
             height: "100%",
             borderRadius: 9,
             background: `linear-gradient(90deg, ${color}44, ${color})`,
-            boxShadow: `0 0 12px ${color}66`,
+            boxShadow: `0 0 ${pulseGlow}px ${color}88`,
           }}
         />
       </div>

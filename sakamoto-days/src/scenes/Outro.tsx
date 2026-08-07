@@ -25,13 +25,48 @@ export const Outro: React.FC = () => {
         position: "relative",
       }}
     >
+      {/* CTA text — above lineup */}
+      <div
+        style={{
+          opacity: titleOpacity,
+          textAlign: "center",
+          marginBottom: 80,
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "Oswald, sans-serif",
+            fontSize: 52,
+            fontWeight: 700,
+            color: "white",
+            textTransform: "uppercase",
+            letterSpacing: 3,
+            margin: 0,
+          }}
+        >
+          Agree? Drop YOUR
+        </p>
+        <p
+          style={{
+            fontFamily: "Oswald, sans-serif",
+            fontSize: 52,
+            fontWeight: 700,
+            color: "#F44336",
+            textTransform: "uppercase",
+            letterSpacing: 3,
+            margin: 0,
+          }}
+        >
+          ranking below
+        </p>
+      </div>
+
       {/* Lineup */}
       <div
         style={{
           display: "flex",
           gap: 20,
           alignItems: "flex-end",
-          marginBottom: 40,
         }}
       >
         {sorted.map((char, i) => {
@@ -85,42 +120,6 @@ export const Outro: React.FC = () => {
             </div>
           );
         })}
-      </div>
-
-      {/* CTA text */}
-      <div
-        style={{
-          opacity: titleOpacity,
-          textAlign: "center",
-          marginTop: 60,
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "Oswald, sans-serif",
-            fontSize: 48,
-            fontWeight: 700,
-            color: "white",
-            textTransform: "uppercase",
-            letterSpacing: 3,
-            margin: 0,
-          }}
-        >
-          Agree? Drop YOUR
-        </p>
-        <p
-          style={{
-            fontFamily: "Oswald, sans-serif",
-            fontSize: 48,
-            fontWeight: 700,
-            color: "#F44336",
-            textTransform: "uppercase",
-            letterSpacing: 3,
-            margin: 0,
-          }}
-        >
-          ranking below
-        </p>
       </div>
     </div>
   );
