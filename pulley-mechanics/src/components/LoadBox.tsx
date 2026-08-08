@@ -13,16 +13,16 @@ export const LoadBox: React.FC<LoadBoxProps> = ({
   x,
   y,
   width = 80,
-  height = 60,
-  label = "Load",
+  height = 55,
+  label = "100N",
   opacity = 1,
 }) => {
   return (
     <g transform={`translate(${x}, ${y})`} opacity={opacity}>
       <defs>
-        <linearGradient id={`box-grad-${x}-${y}`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#9CA3AF" />
-          <stop offset="100%" stopColor="#4B5563" />
+        <linearGradient id={`lb-${x}-${y}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#64748B" />
+          <stop offset="100%" stopColor="#334155" />
         </linearGradient>
       </defs>
       <rect
@@ -30,17 +30,17 @@ export const LoadBox: React.FC<LoadBoxProps> = ({
         y={0}
         width={width}
         height={height}
-        rx={4}
-        fill={`url(#box-grad-${x}-${y})`}
-        stroke="#6B7280"
+        rx={5}
+        fill={`url(#lb-${x}-${y})`}
+        stroke="#475569"
         strokeWidth={2}
       />
       <text
         x={0}
-        y={height / 2 + 5}
+        y={height / 2 + 6}
         textAnchor="middle"
-        fontFamily="Inter, sans-serif"
-        fontSize={14}
+        fontFamily="'JetBrains Mono', monospace"
+        fontSize={16}
         fontWeight={700}
         fill="white"
       >

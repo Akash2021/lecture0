@@ -1,14 +1,14 @@
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
 
-interface MechanicalAdvantageCounterProps {
+interface MACounterProps {
   value: number;
   delay: number;
   x?: number;
   y?: number;
 }
 
-export const MechanicalAdvantageCounter: React.FC<MechanicalAdvantageCounterProps> = ({
+export const MACounter: React.FC<MACounterProps> = ({
   value,
   delay,
   x = 0,
@@ -22,12 +22,13 @@ export const MechanicalAdvantageCounter: React.FC<MechanicalAdvantageCounterProp
   });
 
   const displayValue = Math.round(value * progress);
-  const opacity = interpolate(frame - delay, [0, 10], [0, 1], {
+
+  const scale = interpolate(frame - delay, [0, 8, 14], [0.5, 1.15, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const scale = interpolate(frame - delay, [0, 10, 15], [0.5, 1.2, 1], {
+  const opacity = interpolate(frame - delay, [0, 8], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -46,9 +47,9 @@ export const MechanicalAdvantageCounter: React.FC<MechanicalAdvantageCounterProp
       <div
         style={{
           fontFamily: "Inter, sans-serif",
-          fontSize: 14,
+          fontSize: 13,
           fontWeight: 500,
-          color: "rgba(255,255,255,0.5)",
+          color: "rgba(255,255,255,0.45)",
           textTransform: "uppercase",
           letterSpacing: 2,
         }}
@@ -57,15 +58,15 @@ export const MechanicalAdvantageCounter: React.FC<MechanicalAdvantageCounterProp
       </div>
       <div
         style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: 64,
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 72,
           fontWeight: 800,
-          color: "#F5A623",
+          color: "#FFD60A",
           lineHeight: 1,
-          textShadow: "0 0 20px rgba(245, 166, 35, 0.4)",
+          textShadow: "0 0 24px rgba(255, 214, 10, 0.35)",
         }}
       >
-        {displayValue}x
+        {displayValue}×
       </div>
     </div>
   );

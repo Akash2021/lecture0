@@ -15,18 +15,17 @@ export const SceneTitle: React.FC<SceneTitleProps> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const titleProgress = spring({
+  const progress = spring({
     frame: frame - delay,
     fps,
     config: { damping: 14, stiffness: 100 },
   });
 
-  const titleX = interpolate(titleProgress, [0, 1], [-200, 0]);
-  const titleOpacity = interpolate(titleProgress, [0, 1], [0, 1]);
+  const titleX = interpolate(progress, [0, 1], [-160, 0]);
+  const titleOpacity = interpolate(progress, [0, 1], [0, 1]);
+  const underlineW = interpolate(progress, [0, 1], [0, 100]);
 
-  const underlineWidth = interpolate(titleProgress, [0, 1], [0, 100]);
-
-  const subtitleOpacity = interpolate(frame - delay - 10, [0, 15], [0, 1], {
+  const subOpacity = interpolate(frame - delay - 12, [0, 15], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -35,8 +34,8 @@ export const SceneTitle: React.FC<SceneTitleProps> = ({
     <div
       style={{
         position: "absolute",
-        top: 60,
-        left: 80,
+        top: 50,
+        left: 60,
         zIndex: 10,
         transform: `translateX(${titleX}px)`,
         opacity: titleOpacity,
@@ -45,34 +44,33 @@ export const SceneTitle: React.FC<SceneTitleProps> = ({
       <h1
         style={{
           fontFamily: "Inter, sans-serif",
-          fontSize: 48,
+          fontSize: 42,
           fontWeight: 700,
           color: "white",
           margin: 0,
-          lineHeight: 1.2,
         }}
       >
         {title}
       </h1>
       <div
         style={{
-          width: `${underlineWidth}%`,
+          width: `${underlineW}%`,
           height: 3,
-          background: "linear-gradient(90deg, #F5A623, #F5A62300)",
-          marginTop: 8,
-          maxWidth: 400,
+          background: "linear-gradient(90deg, #FFD60A, #FFD60A00)",
+          marginTop: 6,
+          maxWidth: 350,
         }}
       />
       {subtitle && (
         <p
           style={{
             fontFamily: "Inter, sans-serif",
-            fontSize: 22,
+            fontSize: 20,
             fontWeight: 400,
-            color: "rgba(255,255,255,0.6)",
+            color: "rgba(255,255,255,0.55)",
             margin: 0,
-            marginTop: 10,
-            opacity: subtitleOpacity,
+            marginTop: 8,
+            opacity: subOpacity,
           }}
         >
           {subtitle}
